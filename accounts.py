@@ -22,20 +22,4 @@ class Accounts:
         content.clear();
 
 
-aclist = Accounts();
-aclist.read_list();
-
-login = input("Login: ");
-password = input("Password: ");
-
-if login not in aclist.list:
-    print("Account: " + login + " does not exist.\n");
-else:
-    if aclist.list[login] == password:
-        currAccount = Account(login);
-    else:
-        print("Wrong password");
-
-command = input(">");
-if command == "current":
-    print(currAccount);
+currAccount = None;
