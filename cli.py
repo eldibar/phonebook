@@ -40,15 +40,16 @@ def get_input():
         if command[0] not in commandListLO:
             print(command[0] + " - command not fount.");
             return;
+        return command;
     else:
         command = input("@"+accounts.currAccount.login+"/>").split(" ");
         if command[0] not in commandListLI:
             print(command[0] + " - command not fount.");
             return;
+        return command;
 
 
 def execute_command(command):
-    get_input();
     commandListLO(command[0])();
 
 commandListLO = {
@@ -63,7 +64,8 @@ commandListLI = {
 
 
 if __name__ == "__main__":
-    execute_command();
+    command = get_input();
+    commandListLO.get(command[0])();
 
 
 
