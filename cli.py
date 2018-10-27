@@ -1,4 +1,4 @@
-import accounts, inspect;
+import accounts, inspect,contacts;
 
 
 def account_login():
@@ -13,21 +13,28 @@ def account_login():
     else:
         if aclist.list[login] == password:
             accounts.currAccount = accounts.Account(login);
+            print(accounts.currAccount)
+            contacts.phoneb = contacts.read_book(accounts.currAccount.login);
         else:
             print("Wrong password");
 
+
 def account_login_ac(login):
     accounts.currAccount = accounts.Account(login);
+    contacts.phoneb = contacts.read_book(accounts.currAccount.login);
 
 
-def account_create(login,password):
+def account_create(args):
+    if len(args) != 2:
+        print("Inappropriate number of arguments "+len(args)+" -- cruser [login] [password]");
+        return;
     acfile = open("accounts.txt","a+");
-    acfile.write(login + "," + password);
-    account_login_ac(login);
+    acfile.write("\n"+args[0] + "," + args[1]);
+    account_login_ac(args[0]);
 
 
 def account_logout():
-    accounts.currAccount = None;
+    accounts.currAccount = "None";
 
 
 def show_user():
@@ -35,22 +42,27 @@ def show_user():
 
 
 def get_input():
-    if accounts.currAccount is None:
-        command = input("/>").split(" ");
-        if command[0] not in commandListLO:
-            print(command[0] + " - command not fount.");
+    if accounts.currAccount.login == "None":
+        comm = input("/>").split(" ");
+        if comm[0] not in commandListLO:
+            print(comm[0] + " - command not fount.");
             return;
-        return command;
     else:
-        command = input("@"+accounts.currAccount.login+"/>").split(" ");
-        if command[0] not in commandListLI:
-            print(command[0] + " - command not fount.");
+        comm = input("@"+accounts.currAccount.login+"/>").split(" ");
+        if comm[0] not in commandListLI:
+            print(comm[0] + " - command not fount.");
             return;
-        return command;
+    return comm;
 
 
 def execute_command(command):
-    commandListLO(command[0])();
+    if accounts.currAccount.login == "None":
+        if len(command) == 1:
+            commandListLO.get(command[0])();
+        else:
+            commandListLO.get(command[0])(command[1:]);
+    else:
+        commandListLI.get(command[0])();
 
 commandListLO = {
     "login":account_login,
@@ -59,13 +71,15 @@ commandListLO = {
 
 commandListLI = {
     "logout":account_logout,
-    "current":show_user
+    "current":show_user,
+    "cruser": account_create,
+    "show": contacts.show_book,
 };
 
 
 if __name__ == "__main__":
-    command = get_input();
-    commandListLO.get(command[0])();
-
+    while True:
+        command = get_input();
+        execute_command(command);
 
 

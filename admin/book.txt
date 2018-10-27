@@ -1,0 +1,2 @@
+Marek,Kowalski,987654123
+Mariusz,Wojciechowski,558967447,Gdansk

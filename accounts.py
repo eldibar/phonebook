@@ -22,4 +22,4 @@ class Accounts:
         content.clear();
 
 
-currAccount = None;
+currAccount = Account("None");
