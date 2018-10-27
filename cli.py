@@ -1,4 +1,15 @@
-import accounts, inspect,contacts;
+import accounts, inspect,contacts,os;
+
+
+def welcome_message():
+    msg = "==============================\n";
+    msg += "\t\t\tPHONEBOOK\n";
+    msg += "==============================\n\n";
+    msg += "Welcome to your personal phonebook!\n If you already have an account type login and just well.. log in ;)\n";
+    msg += "Otherwise you can create new account by typing";
+    msg += '\033[92m'+" cruser [login] [password]\n" + '\033[0m';
+    msg += "To see list of available commands type help just after you log in and have fun!\n\n\n";
+    return msg;
 
 
 def account_login():
@@ -13,6 +24,7 @@ def account_login():
     else:
         if aclist.list[login] == password:
             accounts.currAccount = accounts.Account(login);
+            os.system('cls' if os.name == 'nt' else 'clear');
             print(accounts.currAccount)
             contacts.phoneb = contacts.read_book(accounts.currAccount.login);
         else:
@@ -64,9 +76,15 @@ def execute_command(command):
     else:
         commandListLI.get(command[0])();
 
+
+def exit():
+    exit();
+
+
 commandListLO = {
     "login":account_login,
     "cruser":account_create,
+    "exit": quit,
 };
 
 commandListLI = {
@@ -74,10 +92,12 @@ commandListLI = {
     "current":show_user,
     "cruser": account_create,
     "show": contacts.show_book,
+    "exit": quit,
 };
 
 
 if __name__ == "__main__":
+    print(welcome_message());
     while True:
         command = get_input();
         execute_command(command);
