@@ -19,7 +19,20 @@ class Accounts:
         for line in content:
             acc = line.split(",");
             self.list[acc[0]] = acc[1];
-        content.clear();
+
+
+def change_password(args):
+    aclist = Accounts()
+    aclist.read_list()
+    if aclist.list[currAccount.login] == args[0]:
+        aclist.list[currAccount.login] = args[1]
+        acfile = open("accounts.txt","w")
+        for key, value in aclist.list.items():
+            acfile.write(key + ","+value+"\n")
+        return
+    else:
+        print("Wrong password!\n")
+        return
 
 
 currAccount = Account("None");

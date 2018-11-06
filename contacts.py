@@ -1,4 +1,4 @@
-import accounts,os
+import accounts,os,inspect
 
 class Person:
     def __init__(self,fname,lname,number,adress = ""):
@@ -25,9 +25,10 @@ class PhoneBook:
         return stri;
 
 
-def show_book():
+def print_book():
     print(phoneb);
     return;
+
 
 def read_book(owner=accounts.currAccount.login):
     if not os.path.exists(owner):
@@ -46,3 +47,4 @@ def read_book(owner=accounts.currAccount.login):
 
 
 phoneb = PhoneBook();
+
