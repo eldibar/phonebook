@@ -52,6 +52,8 @@ commandListLI = {
     "pwd": functions.change_password,
     "show": functions.show_book,
     "add": functions.add_person,
+    "allow": functions.allow,
+    "revoke": functions.revoke,
     "exit": quit,
 };
 

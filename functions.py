@@ -32,13 +32,54 @@ def show_book(owner="self"):
         if owner[0] not in aclist.list:
             print(owner[0]+" does not exist.")
             return
-        elif owner in accounts.currAccount.permitList:
+        elif owner[0] in accounts.currAccount.permitList:
             contacts.phoneb = read_book(owner[0])
             print_book()
-            read_book(accounts.currAccount.login)
+            contacts.phoneb = read_book(accounts.currAccount.login)
             return
         else:
             print("You don't have permission to view "+owner[0]+"'s phonebook.")
+
+
+def allow(person):
+    aclist = accounts.Accounts()
+    aclist.read_list()
+    if person[0] not in aclist.list:
+        print(person[0] + " does not exist.")
+        return
+    else:
+        pfile = open(person[0]+"/"+person[0]+".txt","r")
+        permitlist = pfile.read().splitlines()
+        pfile.close()
+        permitlist.append(accounts.currAccount.login)
+        pfile = open(person[0]+"/permit.txt","w")
+        for login in permitlist:
+            pfile.write(login+"\n")
+        pfile.close()
+        print(person[0]+" was granted access to your book.\n")
+
+
+def revoke(person):
+    aclist = accounts.Accounts()
+    aclist.read_list()
+    if person[0] not in aclist.list:
+        print(person[0] + " does not exist.")
+        return
+    else:
+        pfile = open(person[0] + "/permit.txt", "r")
+        permitlist = pfile.read().splitlines()
+        pfile.close()
+        print(permitlist)
+        for login in permitlist:
+            if login == accounts.currAccount.login:
+                permitlist.remove(login)
+        print(permitlist)
+        pfile = open(person[0] + "/permit.txt", "w")
+        for login in permitlist:
+            pfile.write(login + "\n")
+        pfile.close()
+        print(person[0] + " has no access to your book.\n")
+
 
 
 def add_person():
@@ -73,6 +114,8 @@ def account_login():
     else:
         if aclist.list[login] == password:
             accounts.currAccount = accounts.Account(login);
+            accounts.currAccount.read_permit()
+            print(accounts.currAccount.permitList)
             os.system('cls' if os.name == 'nt' else 'clear');
             print(accounts.currAccount)
             contacts.phoneb = read_book(login);

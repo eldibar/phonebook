@@ -7,6 +7,12 @@ class Account:
         stri = "You are logged in as " + self.login + "\n";
         return stri;
 
+    def read_permit(self):
+        pfile = open(self.login+"/"+"permit.txt","r")
+        content = pfile.read().splitlines();
+        for item in content:
+            self.permitList.append(item)
+
 
 class Accounts:
     def __init__(self):
